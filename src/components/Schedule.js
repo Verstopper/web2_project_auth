@@ -1,3 +1,4 @@
+import { useAuth0 } from "@auth0/auth0-react";
 import React from "react";
 import CRUDTable, {
   Fields,
@@ -127,6 +128,8 @@ const service = {
 const styles = { container: { margin: "auto", width: "fit-content" } };
 
 const Schedule = () => {
+  const { isAuthenticated } = useAuth0();
+
   return (
     <div style={styles.container}>
       <CRUDTable
@@ -134,37 +137,39 @@ const Schedule = () => {
         fetchItems={(payload) => service.fetchItems(payload)}
       >
         <Fields>
-          <Field name="round" label="Kolo" placeholder="Kolo"/>
+          <Field name="round" label="Kolo" placeholder="Kolo" />
           <Field name="home" label="Domaći" placeholder="Domaći" />
           <Field name="guest" label="Gosti" placeholder="Gosti" />
           <Field name="date" label="Datum" placeholder="Datum" />
         </Fields>
-        <CreateForm
-          title="Dodaj novu utakmicu u raspored"
-          message="Stvori novu utakmicu u rasporedu!"
-          trigger="Stvori novi unos"
-          onSubmit={(match) => service.create(match)}
-          submitText="Stvori"
-          validate={(values) => {
-            const errors = {};
-            if (!values.guest) {
-              errors.title = "Unesite goste!";
-            }
-            if (!values.home) {
-              errors.description = "Unesite domaće";
-            }
-            if (!values.date) {
-              errors.description = "Unesite datum!";
-            }
-            if (!values.round) {
-              errors.description = "Unesite kolo!";
-            }
+        {isAuthenticated && (
+          <CreateForm
+            title="Dodaj novu utakmicu u raspored"
+            message="Stvori novu utakmicu u rasporedu!"
+            trigger="Stvori novi unos"
+            onSubmit={(match) => service.create(match)}
+            submitText="Stvori"
+            validate={(values) => {
+              const errors = {};
+              if (!values.guest) {
+                errors.title = "Unesite goste!";
+              }
+              if (!values.home) {
+                errors.description = "Unesite domaće";
+              }
+              if (!values.date) {
+                errors.description = "Unesite datum!";
+              }
+              if (!values.round) {
+                errors.description = "Unesite kolo!";
+              }
 
-            return errors;
-          }}
-        />
+              return errors;
+            }}
+          />
+        )}
 
-        <UpdateForm
+        {isAuthenticated && <UpdateForm
           title="Ažuriranje unosa"
           message="Ažuriraj unos"
           trigger="Ažuriraj"
@@ -187,9 +192,9 @@ const Schedule = () => {
 
             return errors;
           }}
-        />
+        />}
 
-        <DeleteForm
+        {isAuthenticated && <DeleteForm
           title="Brisanje unosa"
           message="Jeste li sigurni da želite izbrisati ovaj unos"
           trigger="Izbriši!"
@@ -202,7 +207,7 @@ const Schedule = () => {
             }
             return errors;
           }}
-        />
+        />}
       </CRUDTable>
     </div>
   );

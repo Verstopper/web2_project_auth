@@ -1,4 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
+import Comments from "./components/Comments";
 import LoginButton from "./components/LoginButton";
 import LogoutButton from "./components/LogoutButton";
 import Schedule from "./components/Schedule";
@@ -13,12 +14,13 @@ function App() {
       {!error && isLoading && <p>Loading...</p>}
       {!error && !isLoading && (
         <>
-        {isAuthenticated && <h1>Welcome {user?.name}</h1>}
+          {isAuthenticated && <h1>Welcome {user?.name}</h1>}
           <LoginButton />
           <LogoutButton />
+          <Schedule />
+          <Comments />
         </>
       )}
-      <Schedule />
     </>
   );
 }
