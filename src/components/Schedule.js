@@ -128,7 +128,7 @@ const service = {
 const styles = { container: { margin: "auto", width: "fit-content" } };
 
 const Schedule = () => {
-  const { isAuthenticated } = useAuth0();
+  const { isAuthenticated, user } = useAuth0();
 
   return (
     <div style={styles.container}>
@@ -142,7 +142,7 @@ const Schedule = () => {
           <Field name="guest" label="Gosti" placeholder="Gosti" />
           <Field name="date" label="Datum" placeholder="Datum" />
         </Fields>
-        {isAuthenticated && (
+        {(isAuthenticated && user?.email==="adminko.admin@gmail.com") && (
           <CreateForm
             title="Dodaj novu utakmicu u raspored"
             message="Stvori novu utakmicu u rasporedu!"
@@ -169,7 +169,7 @@ const Schedule = () => {
           />
         )}
 
-        {isAuthenticated && <UpdateForm
+        {(isAuthenticated && user?.email==="adminko.admin@gmail.com") && <UpdateForm
           title="Ažuriranje unosa"
           message="Ažuriraj unos"
           trigger="Ažuriraj"
@@ -194,7 +194,7 @@ const Schedule = () => {
           }}
         />}
 
-        {isAuthenticated && <DeleteForm
+        {(isAuthenticated && user?.email==="adminko.admin@gmail.com") && <DeleteForm
           title="Brisanje unosa"
           message="Jeste li sigurni da želite izbrisati ovaj unos"
           trigger="Izbriši!"

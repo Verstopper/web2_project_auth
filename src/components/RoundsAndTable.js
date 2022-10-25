@@ -139,14 +139,14 @@ function getScoreForTeam(teamName) {
     x.guestScore - x.homeScore,
   ]);
   //   console.log("GUEST POINTS FOR", teamName, guestPoints);
-  const overallPoints = homePoints.concat(guestPoints).flatMap(num => num);
-  for(var i = 0; i < overallPoints.length; i++){
-    if (overallPoints[i] > 0){
-        scores += 3;
-    }else if (overallPoints[i] < 0){
-        scores += 0;
-    } else{
-        scores += 1;
+  const overallPoints = homePoints.concat(guestPoints).flatMap((num) => num);
+  for (var i = 0; i < overallPoints.length; i++) {
+    if (overallPoints[i] > 0) {
+      scores += 3;
+    } else if (overallPoints[i] < 0) {
+      scores += 0;
+    } else {
+      scores += 1;
     }
   }
 
@@ -326,7 +326,7 @@ const service2 = {
 const styles = { container: { margin: "auto", width: "fit-content" } };
 
 const RoundsAndTables = () => {
-  const { isAuthenticated } = useAuth0();
+  const { isAuthenticated, user } = useAuth0();
 
   return (
     <div style={styles.container}>
@@ -365,7 +365,7 @@ const RoundsAndTables = () => {
           <Field name="guest" label="Gosti" placeholder="Gosti" />
           <Field name="date" label="Datum" placeholder="Datum" />
         </Fields>
-        {isAuthenticated && (
+        {isAuthenticated && user?.email === "adminko.admin@gmail.com" && (
           <CreateForm
             title="Dodaj novo odigrano kolo"
             message="Pazi na imena klubova! Datum unesi u obliku DD-MM-YYYY "
@@ -392,7 +392,7 @@ const RoundsAndTables = () => {
           />
         )}
 
-        {isAuthenticated && (
+        {isAuthenticated && user?.email === "adminko.admin@gmail.com" && (
           <UpdateForm
             title="Ažuriranje unosa"
             message="Ažuriraj unos"
@@ -419,7 +419,7 @@ const RoundsAndTables = () => {
           />
         )}
 
-        {isAuthenticated && (
+        {isAuthenticated && user?.email === "adminko.admin@gmail.com" && (
           <DeleteForm
             title="Brisanje unosa"
             message="Jeste li sigurni da želite izbrisati ovaj unos"
