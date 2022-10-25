@@ -107,7 +107,7 @@ const Comments = () => {
   return (
     <div style={styles.container}>
       <CRUDTable
-        caption="comments"
+        caption="Komentari"
         fetchItems={(payload) => service.fetchItems(payload)}
       >
         <Fields>
