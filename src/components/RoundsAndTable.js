@@ -271,23 +271,6 @@ const getSorter1 = (data) => {
   return sorter;
 };
 
-// const getSorter2 = (data) => {
-//   // const mapper = (x) => x[data.field];
-//   // let sorter = SORTERS.NUMBER_DESCENDING(mapper);
-
-//   // if (data.field === "score") {
-//   //   sorter =
-//   //     data.direction === "descending"
-//   //       ? SORTERS.NUMBER_ASCENDING(mapper)
-//   //       : SORTERS.NUMBER_DESCENDING(mapper);
-//   // }
-
-//   // return sorter;
-//   return data.sort(function (a, b) {
-//     if(a.)
-//   })
-// };
-
 let count = initialData.length;
 const service1 = {
   fetchItems: (payload) => {

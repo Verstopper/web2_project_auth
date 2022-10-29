@@ -29,6 +29,22 @@ let comments = [
     author: "adminko.admin@gmail.com",
     createdAt: new Date().toLocaleString(),
   },
+  {
+    id: 3,
+    title: "User1 komentar",
+    round: 4,
+    description: "Ovo je tekst komentara",
+    author: "user1@gmail.com",
+    createdAt: new Date().toLocaleString(),
+  },
+  {
+    id: 4,
+    title: "User2 komentar",
+    round: 4,
+    description: "Ovo je tekst komentara",
+    author: "user2@gmail.com",
+    createdAt: new Date().toLocaleString(),
+  },
 ];
 
 const SORTERS = {
