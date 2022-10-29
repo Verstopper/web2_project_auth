@@ -19,7 +19,7 @@ let comments = [
     round: 4,
     description: "Ovo je tekst komentara",
     author: "adminko.admin@gmail.com",
-    createdAt: (new Date()).toLocaleString(),
+    createdAt: new Date().toLocaleString(),
   },
   {
     id: 2,
@@ -27,7 +27,7 @@ let comments = [
     round: 4,
     description: "Improve the comment!",
     author: "adminko.admin@gmail.com",
-    createdAt: (new Date()).toLocaleString(),
+    createdAt: new Date().toLocaleString(),
   },
 ];
 
@@ -69,30 +69,32 @@ const service = {
     comments.push({
       ...comment,
       id: count,
-      createdAt: (new Date()).toLocaleString(),
+      createdAt: new Date().toLocaleString(),
       author: email,
     });
     return Promise.resolve(comment);
   },
   update: (data, email) => {
     const comment = comments.find((t) => t.id === data.id);
-    comment.title = data.title;
-    comment.round = data.round;
-    comment.description = data.description;
-    if(comment.author === email){
-    return Promise.resolve(comment);
-    }else{
-      return Promise.reject(new Error("Nije moguće ažurirati komentar kojem niste autor"));
+    if (comment.author === email) {
+      comment.title = data.title;
+      comment.round = data.round;
+      comment.description = data.description;
+      return Promise.resolve(comment);
+    } else {
+      return Promise.reject(
+        new Error("Nije moguće ažurirati komentar kojem niste autor")
+      );
     }
   },
   delete: (data, email) => {
     const comment = comments.find((t) => t.id === data.id);
-    comments = comments.filter((t) => t.id !== comment.id);
-    if(comment.author === email){
+    if (comment.author === email) {
+      comments = comments.filter((t) => t.id !== comment.id);
       return Promise.resolve(comment);
-      }else{
-        return Promise.reject(new Error("Nije moguće obrisati komentar"));
-      }
+    } else {
+      return Promise.reject(new Error("Nije moguće obrisati komentar"));
+    }
   },
 };
 
@@ -101,8 +103,7 @@ const styles = {
 };
 
 const Comments = () => {
-
-  const {isAuthenticated, user} = useAuth0()
+  const { isAuthenticated, user } = useAuth0();
 
   return (
     <div style={styles.container}>
@@ -111,7 +112,7 @@ const Comments = () => {
         fetchItems={(payload) => service.fetchItems(payload)}
       >
         <Fields>
-          <Field name="id" label="Id" hideInCreateForm hideInUpdateForm/>
+          <Field name="id" label="Id" hideInCreateForm hideInUpdateForm />
           <Field name="title" label="Naslov" placeholder="Naslov" />
           <Field
             name="description"
@@ -119,74 +120,90 @@ const Comments = () => {
             render={DescriptionRenderer}
           />
           <Field name="round" label="Kolo"></Field>
-          <Field name="author" label="Autor" hideInCreateForm hideInUpdateForm></Field>
-          <Field name="createdAt" label="Vrijeme stvaranja" hideInCreateForm hideInUpdateForm></Field>
+          <Field
+            name="author"
+            label="Autor"
+            hideInCreateForm
+            hideInUpdateForm
+          ></Field>
+          <Field
+            name="createdAt"
+            label="Vrijeme stvaranja"
+            hideInCreateForm
+            hideInUpdateForm
+          ></Field>
         </Fields>
-        {isAuthenticated && (<CreateForm
-          title="Stvori novi komentar"
-          message="Stvori novi komentar!"
-          trigger="Stvori novi"
-          onSubmit={(comment) => service.create(comment, user?.email)}
-          submitText="Stvori"
-          validate={(values) => {
-            const errors = {};
-            if (!values.title) {
-              errors.title = "Molim unesite naslov komentara";
-            }
-            if (!values.description) {
-              errors.description = "Molim unesite sadržaj";
-            }
-            if (!values.round) {
-              errors.description =
-                "Molim unesite kolo za koje se veže komentar";
-            }
-            if (!values.description) {
-              errors.description = "Please, provide comment's description";
-            }
+        {isAuthenticated && (
+          <CreateForm
+            title="Stvori novi komentar"
+            message="Stvori novi komentar!"
+            trigger="Stvori novi"
+            onSubmit={(comment) => service.create(comment, user?.email)}
+            submitText="Stvori"
+            validate={(values) => {
+              const errors = {};
+              if (!values.title) {
+                errors.title = "Molim unesite naslov komentara";
+              }
+              if (!values.description) {
+                errors.description = "Molim unesite sadržaj";
+              }
+              if (!values.round) {
+                errors.description =
+                  "Molim unesite kolo za koje se veže komentar";
+              }
+              if (!values.description) {
+                errors.description = "Please, provide comment's description";
+              }
 
-            return errors;
-          }}
-        />)}
+              return errors;
+            }}
+          />
+        )}
 
-        {isAuthenticated && (<UpdateForm
-          title="comment Update Process"
-          message="Update comment"
-          trigger="Update"
-          onSubmit={(comment) => service.update(comment, user?.email)}
-          submitText="Update"
-          validate={(values) => {
-            const errors = {};
+        {isAuthenticated && (
+          <UpdateForm
+            title="comment Update Process"
+            message="Update comment"
+            trigger="Update"
+            onSubmit={(comment) => service.update(comment, user?.email)}
+            submitText="Update"
+            validate={(values) => {
+              const errors = {};
 
-            if (!values.id) {
-              errors.id = "Please, provide id";
-            }
+              if (!values.id) {
+                errors.id = "Please, provide id";
+              }
 
-            if (!values.title) {
-              errors.title = "Please, provide comment's title";
-            }
+              if (!values.title) {
+                errors.title = "Please, provide comment's title";
+              }
 
-            if (!values.description) {
-              errors.description = "Please, provide comment's description";
-            }
+              if (!values.description) {
+                errors.description = "Please, provide comment's description";
+              }
 
-            return errors;
-          }}
-        />)}
+              return errors;
+            }}
+          />
+        )}
 
-        {isAuthenticated && (<DeleteForm
-          title="comment Delete Process"
-          message="Are you sure you want to delete the comment?"
-          trigger="Delete"
-          onSubmit={(comment) => service.delete(comment, user?.email)}
-          submitText="Delete"
-          validate={(values) => {
-            const errors = {};
-            if (!values.id) {
-              errors.id = "Please, provide id";
-            }
-            return errors;
-          }}
-        />)}
+        {isAuthenticated && (
+          <DeleteForm
+            title="comment Delete Process"
+            message="Are you sure you want to delete the comment?"
+            trigger="Delete"
+            onSubmit={(comment) => service.delete(comment, user?.email)}
+            submitText="Delete"
+            validate={(values) => {
+              const errors = {};
+              if (!values.id) {
+                errors.id = "Please, provide id";
+              }
+              return errors;
+            }}
+          />
+        )}
       </CRUDTable>
     </div>
   );

@@ -120,6 +120,8 @@ let initialData = [
   },
 ];
 
+localStorage.setItem("initialData", JSON.stringify(initialData));
+
 function getScoreForTeam(teamName) {
   let scores = 0;
   const homeMatchesForTeam = initialData.filter((team) => {
@@ -184,7 +186,7 @@ function getGoalDiffForTeam(teamName) {
   return homeGiven + guestGiven - homeTaken - guestTaken;
 }
 
-const teamsWithScores = [
+let teamsWithScores = [
   {
     name: "Sloga",
     score: getScoreForTeam("Sloga"),
@@ -269,19 +271,22 @@ const getSorter1 = (data) => {
   return sorter;
 };
 
-const getSorter2 = (data) => {
-  const mapper = (x) => x[data.field];
-  let sorter = SORTERS.NUMBER_DESCENDING(mapper);
+// const getSorter2 = (data) => {
+//   // const mapper = (x) => x[data.field];
+//   // let sorter = SORTERS.NUMBER_DESCENDING(mapper);
 
-  if (data.field === "goalDiff") {
-    sorter =
-      data.direction === "ascending"
-        ? SORTERS.NUMBER_ASCENDING(mapper)
-        : SORTERS.NUMBER_DESCENDING(mapper);
-  }
+//   // if (data.field === "score") {
+//   //   sorter =
+//   //     data.direction === "descending"
+//   //       ? SORTERS.NUMBER_ASCENDING(mapper)
+//   //       : SORTERS.NUMBER_DESCENDING(mapper);
+//   // }
 
-  return sorter;
-};
+//   // return sorter;
+//   return data.sort(function (a, b) {
+//     if(a.)
+//   })
+// };
 
 let count = initialData.length;
 const service1 = {
@@ -317,8 +322,13 @@ const service1 = {
 
 const service2 = {
   fetchItems: (payload) => {
-    let result = Array.from(teamsWithScores);
-    result = result.sort(getSorter2(payload.sort));
+    let result = Array.from(teamsWithScores).sort(function (a, b) {
+      if (a.score === b.score) {
+        return b.goalDiff - a.goalDiff;
+      } else {
+        return b.score - a.score;
+      }
+    });
     return Promise.resolve(result);
   },
 };
@@ -335,9 +345,15 @@ const RoundsAndTables = () => {
         fetchItems={(payload) => service2.fetchItems(payload)}
       >
         <Fields>
-          <Field name="name" label="Klub" placeholder="Klub" />
-          <Field name="score" label="Bodovi" placeholder="Bodovi" />
+          <Field sortable={false} name="name" label="Klub" placeholder="Klub" />
           <Field
+            sortable={false}
+            name="score"
+            label="Bodovi"
+            placeholder="Bodovi"
+          />
+          <Field
+            sortable={false}
             name="goalDiff"
             label="Gol-Razlika"
             placeholder="Gol-razlika"
