@@ -128,21 +128,35 @@ const Comments = () => {
         fetchItems={(payload) => service.fetchItems(payload)}
       >
         <Fields>
-          <Field name="id" label="Id" hideInCreateForm hideInUpdateForm />
-          <Field name="title" label="Naslov" placeholder="Naslov" />
           <Field
+            sortable={false}
+            name="id"
+            label="Id"
+            hideInCreateForm
+            hideInUpdateForm
+          />
+          <Field
+            sortable={false}
+            name="title"
+            label="Naslov"
+            placeholder="Naslov"
+          />
+          <Field
+            sortable={false}
             name="description"
             label="Sadržaj"
             render={DescriptionRenderer}
           />
-          <Field name="round" label="Kolo"></Field>
+          <Field sortable={false} name="round" label="Kolo"></Field>
           <Field
+            sortable={false}
             name="author"
             label="Autor"
             hideInCreateForm
             hideInUpdateForm
           ></Field>
           <Field
+            sortable={false}
             name="createdAt"
             label="Vrijeme stvaranja"
             hideInCreateForm

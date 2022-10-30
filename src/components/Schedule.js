@@ -137,12 +137,32 @@ const Schedule = () => {
         fetchItems={(payload) => service.fetchItems(payload)}
       >
         <Fields>
-          <Field name="round" label="Kolo" placeholder="Kolo" />
-          <Field name="home" label="Domaći" placeholder="Domaći" />
-          <Field name="guest" label="Gosti" placeholder="Gosti" />
-          <Field name="date" label="Datum" placeholder="Datum" />
+          <Field
+            sortable={false}
+            name="round"
+            label="Kolo"
+            placeholder="Kolo"
+          />
+          <Field
+            sortable={false}
+            name="home"
+            label="Domaći"
+            placeholder="Domaći"
+          />
+          <Field
+            sortable={false}
+            name="guest"
+            label="Gosti"
+            placeholder="Gosti"
+          />
+          <Field
+            sortable={false}
+            name="date"
+            label="Datum"
+            placeholder="Datum"
+          />
         </Fields>
-        {(isAuthenticated && user?.email==="adminko.admin@gmail.com") && (
+        {isAuthenticated && user?.email === "adminko.admin@gmail.com" && (
           <CreateForm
             title="Dodaj novu utakmicu u raspored"
             message="Stvori novu utakmicu u rasporedu!"
@@ -169,45 +189,49 @@ const Schedule = () => {
           />
         )}
 
-        {(isAuthenticated && user?.email==="adminko.admin@gmail.com") && <UpdateForm
-          title="Ažuriranje unosa"
-          message="Ažuriraj unos"
-          trigger="Ažuriraj"
-          onSubmit={(match) => service.update(match)}
-          submitText="Ažuriraj!"
-          validate={(values) => {
-            const errors = {};
-            if (!values.guest) {
-              errors.title = "Unesite goste!";
-            }
-            if (!values.home) {
-              errors.description = "Unesite domaće";
-            }
-            if (!values.date) {
-              errors.description = "Unesite datum!";
-            }
-            if (!values.round) {
-              errors.description = "Unesite kolo!";
-            }
+        {isAuthenticated && user?.email === "adminko.admin@gmail.com" && (
+          <UpdateForm
+            title="Ažuriranje unosa"
+            message="Ažuriraj unos"
+            trigger="Ažuriraj"
+            onSubmit={(match) => service.update(match)}
+            submitText="Ažuriraj!"
+            validate={(values) => {
+              const errors = {};
+              if (!values.guest) {
+                errors.title = "Unesite goste!";
+              }
+              if (!values.home) {
+                errors.description = "Unesite domaće";
+              }
+              if (!values.date) {
+                errors.description = "Unesite datum!";
+              }
+              if (!values.round) {
+                errors.description = "Unesite kolo!";
+              }
 
-            return errors;
-          }}
-        />}
+              return errors;
+            }}
+          />
+        )}
 
-        {(isAuthenticated && user?.email==="adminko.admin@gmail.com") && <DeleteForm
-          title="Brisanje unosa"
-          message="Jeste li sigurni da želite izbrisati ovaj unos"
-          trigger="Izbriši!"
-          onSubmit={(match) => service.delete(match)}
-          submitText="Izbriši"
-          validate={(values) => {
-            const errors = {};
-            if (!values.id) {
-              errors.id = "Please, provide id";
-            }
-            return errors;
-          }}
-        />}
+        {isAuthenticated && user?.email === "adminko.admin@gmail.com" && (
+          <DeleteForm
+            title="Brisanje unosa"
+            message="Jeste li sigurni da želite izbrisati ovaj unos"
+            trigger="Izbriši!"
+            onSubmit={(match) => service.delete(match)}
+            submitText="Izbriši"
+            validate={(values) => {
+              const errors = {};
+              if (!values.id) {
+                errors.id = "Please, provide id";
+              }
+              return errors;
+            }}
+          />
+        )}
       </CRUDTable>
     </div>
   );

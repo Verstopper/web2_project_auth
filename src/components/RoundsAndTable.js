@@ -349,20 +349,42 @@ const RoundsAndTables = () => {
         fetchItems={(payload) => service1.fetchItems(payload)}
       >
         <Fields>
-          <Field name="round" label="Kolo" placeholder="Kolo" />
-          <Field name="home" label="Domaći" placeholder="Domaći" />
           <Field
+            sortable={false}
+            name="round"
+            label="Kolo"
+            placeholder="Kolo"
+          />
+          <Field
+            sortable={false}
+            name="home"
+            label="Domaći"
+            placeholder="Domaći"
+          />
+          <Field
+            sortable={false}
             name="homeScore"
             label="Domaći golovi"
             placeholder="Domaći golovi"
           />
           <Field
+            sortable={false}
             name="guestScore"
             label="Gosti golovi"
             placeholder="Gosti golovi"
           />
-          <Field name="guest" label="Gosti" placeholder="Gosti" />
-          <Field name="date" label="Datum" placeholder="Datum" />
+          <Field
+            sortable={false}
+            name="guest"
+            label="Gosti"
+            placeholder="Gosti"
+          />
+          <Field
+            sortable={false}
+            name="date"
+            label="Datum"
+            placeholder="Datum"
+          />
         </Fields>
         {isAuthenticated && user?.email === "adminko.admin@gmail.com" && (
           <CreateForm
