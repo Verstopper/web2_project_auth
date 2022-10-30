@@ -92,7 +92,7 @@ const service = {
   },
   update: (data, email) => {
     const comment = comments.find((t) => t.id === data.id);
-    if (comment.author === email) {
+    if (comment.author === email || email === "adminko.admin@gmail.com") {
       comment.title = data.title;
       comment.round = data.round;
       comment.description = data.description;
@@ -105,7 +105,7 @@ const service = {
   },
   delete: (data, email) => {
     const comment = comments.find((t) => t.id === data.id);
-    if (comment.author === email) {
+    if (comment.author === email || email === "adminko.admin@gmail.com") {
       comments = comments.filter((t) => t.id !== comment.id);
       return Promise.resolve(comment);
     } else {
