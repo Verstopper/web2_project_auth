@@ -92,7 +92,7 @@ const service = {
   },
   update: (data, email) => {
     const comment = comments.find((t) => t.id === data.id);
-    if (comment.author === email || email === "adminko.admin@gmail.com") {
+    if (comment.author === email) {
       comment.title = data.title;
       comment.round = data.round;
       comment.description = data.description;
